@@ -20,7 +20,7 @@ public class ReminderGUI extends JFrame {
     private JScrollPane scrollPane;
     private JLabel newReminderLabel;
     private JLabel reminderLabel;
-
+    //TODO put resultsets into list to display in Jlist
     //private final ArrayList<ReminderModel> remList;
 
     public ReminderGUI(Reminder reminderProgam){
@@ -37,6 +37,7 @@ public class ReminderGUI extends JFrame {
 
         //TODO add listeners
 
+        //TODO add time by google calender api?
 
     }
     private void initListeners(){

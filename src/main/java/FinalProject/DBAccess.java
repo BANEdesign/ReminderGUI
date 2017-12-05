@@ -23,7 +23,7 @@ public class DBAccess {
     private static ResultSet resultSet;
 
     ReminderModel reminderModel;
-
+    //TODO put date into sqlite db with info from week 11 slides
     //TODO make SQLite db in terminal
 
     public ArrayList<ReminderModel> loadRemindersDB() {
@@ -54,6 +54,8 @@ public class DBAccess {
             cnfe.printStackTrace();
             System.exit(-1);
             return null;
+        }catch(Exception e){
+            e.printStackTrace();
         }
         return remindersList;
     }
