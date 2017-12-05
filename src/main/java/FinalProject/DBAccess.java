@@ -25,7 +25,7 @@ public class DBAccess {
     ReminderModel reminderModel;
     //TODO put date into sqlite db with info from week 11 slides
     //TODO make SQLite db in terminal
-
+    //TODO make set date buttton that pops up new calender...maybe google calender integration
     public ArrayList<ReminderModel> loadRemindersDB() {
         ArrayList<ReminderModel> remindersList = new ArrayList<ReminderModel>();
         try {
