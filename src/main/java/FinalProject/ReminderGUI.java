@@ -1,9 +1,11 @@
 package FinalProject;
 
 import javax.swing.*;
+import javax.swing.text.DateFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * The UI which stores the Listeners
@@ -20,7 +22,10 @@ public class ReminderGUI extends JFrame {
     private JScrollPane scrollPane;
     private JLabel newReminderLabel;
     private JLabel reminderLabel;
-    //TODO put resultsets into list to display in Jlist
+    protected static ReminderModel reminderModel;
+    private final DBAccess dbAccess = new DBAccess();
+
+    //TODO put resultsets into Jlist
     //private final ArrayList<ReminderModel> remList;
 
     public ReminderGUI(Reminder reminderProgam){
@@ -32,6 +37,9 @@ public class ReminderGUI extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         initListeners();
+        configureDateSpinner();
+        dbAccess.loadRemindersDB();
+        reminderList.setModel(reminderModel);
 
         //TODO setup datamodel
 
@@ -56,4 +64,18 @@ public class ReminderGUI extends JFrame {
         JOptionPane.showMessageDialog(this, message);
     }
 
+    protected void configureDateSpinner() {
+        String[] months = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+        SpinnerDateModel spinnerDateModel = new SpinnerDateModel(new Date(30000000000000L), new Date(), new Date(0), Calendar.DAY_OF_YEAR);
+        dateSpinner.setModel(spinnerDateModel);
+
+        JSpinner.DateEditor editor = new JSpinner.DateEditor(dateSpinner, "yyyy-MM-dd");
+        DateFormatter formatter = (DateFormatter) editor.getTextField().getFormatter();
+        // Attempt to prevent invalid input
+        formatter.setAllowsInvalid(false);
+        // Allow user to type as well as use up/down buttons
+        formatter.setOverwriteMode(true);
+        // And tell the serviceDataSpinner to use this Editor
+        dateSpinner.setEditor(editor);
+    }
 }

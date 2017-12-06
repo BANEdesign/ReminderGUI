@@ -25,39 +25,64 @@ public class DBAccess {
     ReminderModel reminderModel;
     //TODO put date into sqlite db with info from week 11 slides
     //TODO make SQLite db in terminal
+    //TODO setup Windows Exit on close override method that closes the db upon exit
     //TODO make set date buttton that pops up new calender...maybe google calender integration
-    public ArrayList<ReminderModel> loadRemindersDB() {
-        ArrayList<ReminderModel> remindersList = new ArrayList<ReminderModel>();
-        try {
-            System.out.println("Loading reminders from DB");
 
+    public void connect() throws Exception {
+        try {
             Class.forName(JDBC_Driver);
             conn = DriverManager.getConnection(db_url);
-            statement = conn.createStatement();
-            String getDataSQL = "SELECT * FROM reminders ORDER BY date ASC";
-            resultSet = statement.executeQuery(getDataSQL);
-
-            while (rs.next()) {
-                remindersList.add(new ReminderModel(rs));
-            }
-            System.out.println("Loaded " + remindersList.size() + "reminders.");
-            statement.close();
-            rs.close();
-            //conn.close()?
-            //TODO make if/else statement to handle empty list
-            return remindersList;
-
         } catch (SQLException se) {
+            System.out.println("Error Connecting to DB");
             se.printStackTrace();
         } catch (ClassNotFoundException cnfe) {
-            System.out.println("Driver not found :(");
+            System.out.println("Error can't find driver");
             cnfe.printStackTrace();
-            System.exit(-1);
-            return null;
-        }catch(Exception e){
-            e.printStackTrace();
         }
-        return remindersList;
+    }
+
+        //TODO use this method in GUI at addNew event handler
+        public boolean loadRemindersDB (){
+            ArrayList<ReminderModel> remindersList = new ArrayList<ReminderModel>();
+            try {
+                System.out.println("Loading reminders from DB");
+
+//            Class.forName(JDBC_Driver);
+//            conn = DriverManager.getConnection(db_url);
+                connect();
+                statement = conn.createStatement();
+                String getDataSQL = "SELECT * FROM reminders ORDER BY date ASC";
+                resultSet = statement.executeQuery(getDataSQL);
+
+                if (rs != null) {
+                    rs.close();
+                }
+                if (reminderModel == null) {
+                    reminderModel = new ReminderModel(rs);
+                } else {
+                    reminderModel.updateResultSet(rs);
+                }
+                System.out.println("Loaded " + remindersList.size() + "reminders.");
+                return true;
+//            statement.close();
+//            rs.close();
+                //conn.close()?
+                //TODO delete unused code
+
+
+            } catch (SQLException se) {
+                se.printStackTrace();
+                return false;
+            } catch (ClassNotFoundException cnfe) {
+                System.out.println("Driver not found :(");
+                cnfe.printStackTrace();
+                System.exit(-1);
+                return false;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+        }
     }
     public boolean addReminderToDB(String task, Date date){
         //TODO format date before it goes into db, when you get it from the spinner
