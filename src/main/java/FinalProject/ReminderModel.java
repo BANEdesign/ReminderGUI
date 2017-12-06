@@ -1,5 +1,6 @@
 package FinalProject;
 
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,7 +10,7 @@ import java.util.Date;
  * Orginizes data in the model
  * and sends the data back to the gui
  */
-public class ReminderModel  {
+public class ReminderModel extends DefaultListModel {
     private String reminder;
     private Date date;
 
@@ -23,5 +24,8 @@ public class ReminderModel  {
 
         reminder = rs.getString("task");
         date = rs.getDate("date");
+    }
+    public void updateResultSet(ResultSet newRS){
+        resultSet = newRS;
     }
 }

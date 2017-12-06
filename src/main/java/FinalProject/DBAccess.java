@@ -1,7 +1,9 @@
 package FinalProject;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Vector;
 
 /**
  * Accesses the database, communicates
@@ -23,63 +25,126 @@ public class DBAccess {
     private static ResultSet resultSet;
 
     ReminderModel reminderModel;
+    DefaultListModel reminders = new DefaultListModel();
+    private final ArrayList<ResultSet> remList = new ArrayList<ResultSet>();
 
-    //TODO make SQLite db in terminal
+    //TODO clean up unused code
+    public void connect(){
+        try{
+            Class.forName(JDBC_Driver);
+            conn = DriverManager.getConnection(db_url);
 
-    public ArrayList<ReminderModel> loadRemindersDB() {
-        ArrayList<ReminderModel> remindersList = new ArrayList<ReminderModel>();
+        }catch (SQLException se){
+            System.out.println("Error connecting to DB");
+            se.printStackTrace();
+        }catch (ClassNotFoundException cnfe){
+            System.out.println("Error loading driver");
+            cnfe.printStackTrace();
+        }
+    }
+
+    public DefaultListModel loadRemindersDB() {
+
         try {
             System.out.println("Loading reminders from DB");
 
-            Class.forName(JDBC_Driver);
-            conn = DriverManager.getConnection(db_url);
+//            Class.forName(JDBC_Driver);
+//            conn = DriverManager.getConnection(db_url);
+            connect();
             statement = conn.createStatement();
             String getDataSQL = "SELECT * FROM reminders ORDER BY date ASC";
             resultSet = statement.executeQuery(getDataSQL);
 
-            while (rs.next()) {
-                remindersList.add(new ReminderModel(rs));
+            if (rs != null) {
+                rs.close();
             }
-            System.out.println("Loaded " + remindersList.size() + "reminders.");
-            statement.close();
-            rs.close();
+            if(reminders == null){
+                reminders.addElement(rs.getString("task"));
+                reminders.addElement(rs.getDate("date").toString());
+//            if (reminderModel == null) {
+//                reminderModel = new ReminderModel(rs);
+//            } else {
+//                reminderModel.updateResultSet(rs);
+            }else{
+                reminders.clear();
+                reminders.addElement(rs.getString("task"));
+                reminders.addElement(rs.getDate("date").toString());
+            }
+            System.out.println("Loaded reminders.");
+            return reminders;
+
+//            statement.close();
+//            rs.close();
             //conn.close()?
-            //TODO make if/else statement to handle empty list
-            return remindersList;
+
+
 
         } catch (SQLException se) {
             se.printStackTrace();
-        } catch (ClassNotFoundException cnfe) {
-            System.out.println("Driver not found :(");
-            cnfe.printStackTrace();
-            System.exit(-1);
+            return null;
+//        } catch (ClassNotFoundException cnfe) {
+//            System.out.println("Driver not found :(");
+//            cnfe.printStackTrace();
+//            System.exit(-1);
+
+        }catch(Exception e) {
+            System.out.println("Error making list model");
+            e.printStackTrace();
             return null;
         }
-        return remindersList;
+
     }
     public boolean addReminderToDB(String task, Date date){
-        //TODO format date before it goes into db, when you get it from the spinner
+
+        //TODO simplify this method
+
         try{
-            System.out.println("Adding reminder to DB");
-            Class.forName(JDBC_Driver);
-            conn = DriverManager.getConnection(db_url);
+
+//            Class.forName(JDBC_Driver);
+//            conn = DriverManager.getConnection(db_url);
+            connect();
             PreparedStatement psInsert = conn.prepareStatement(insertSQL);
             psInsert.setString(1,task);
             psInsert.setDate(2,date);
             psInsert.executeUpdate();
-            psInsert.close();
-
+//            psInsert.close();
+            System.out.println("Added reminder to DB");
             return true; //could wait until connection closes for this
 
         }catch (SQLException se){
             System.out.println("Error adding reminder");
             se.printStackTrace();
             return false;
-        }catch (ClassNotFoundException cnfe){
-            System.out.println("Driver error");
-            cnfe.printStackTrace();
-            System.exit(-1);
-            return false;
+
         }
     }
+    protected void shutDown(){
+
+            try {
+        if (rs != null) {
+            rs.close();
+            System.out.println("Result set closed");
+        }
+    } catch (SQLException se) {
+        se.printStackTrace();
+    }
+
+        try {
+        if (statement != null) {
+            statement.close();
+            System.out.println("Statement closed");
+        }
+    } catch (SQLException se) {
+        se.printStackTrace();
+    }
+
+        try {
+        if (conn != null) {
+            conn.close();
+            System.out.println("Database connection closed");
+        }
+    } catch (SQLException se) {
+        se.printStackTrace();
+    }
+}
 }

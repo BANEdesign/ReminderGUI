@@ -53,12 +53,6 @@
           <text value="Create New Reminder: "/>
         </properties>
       </component>
-      <component id="50a67" class="javax.swing.JSpinner" binding="dateSpinner">
-        <constraints>
-          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties/>
-      </component>
       <component id="f2c20" class="javax.swing.JButton" binding="Calender">
         <constraints>
           <grid row="3" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
@@ -82,6 +76,12 @@
         <properties>
           <text value="Reminders:"/>
         </properties>
+      </component>
+      <component id="471c" class="javax.swing.JSpinner" binding="dateSpinner">
+        <constraints>
+          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
       </component>
     </children>
   </grid>
