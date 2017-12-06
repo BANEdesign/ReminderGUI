@@ -25,7 +25,16 @@ public class ReminderGUI extends JFrame {
     protected static ReminderModel reminderModel;
     private final DBAccess dbAccess = new DBAccess();
 
-    //TODO put resultsets into Jlist
+    /**
+     put date into sqlite db with info from week 11 slides
+     make SQLite db in terminal
+     setup Windows Exit on close override method that closes the db upon exit
+     make set date buttton that pops up new calender...maybe google calender integration
+     put resultsets into Jlist
+     setup datamodel
+     add listeners
+     add time by google calender api?
+     */
     //private final ArrayList<ReminderModel> remList;
 
     public ReminderGUI(Reminder reminderProgam){
@@ -41,11 +50,7 @@ public class ReminderGUI extends JFrame {
         dbAccess.loadRemindersDB();
         reminderList.setModel(reminderModel);
 
-        //TODO setup datamodel
 
-        //TODO add listeners
-
-        //TODO add time by google calender api?
 
     }
     private void initListeners(){

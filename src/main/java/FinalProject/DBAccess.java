@@ -23,10 +23,7 @@ public class DBAccess {
     private static ResultSet resultSet;
 
     ReminderModel reminderModel;
-    //TODO put date into sqlite db with info from week 11 slides
-    //TODO make SQLite db in terminal
-    //TODO setup Windows Exit on close override method that closes the db upon exit
-    //TODO make set date buttton that pops up new calender...maybe google calender integration
+
 
     public void connect() throws Exception {
         try {
