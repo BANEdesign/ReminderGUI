@@ -1,6 +1,8 @@
 package FinalProject;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.text.DateFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +10,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.ResultSet;
 //import java.time.LocalDateTime;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,13 +32,14 @@ public class ReminderGUI extends JFrame implements WindowListener{
     protected JLabel newReminderLabel;
     protected JLabel reminderLabel;
     private JSpinner dateSpinner;
+    private JLabel currentTimeLabel;
 
     //private  ArrayList<ReminderModel> remList;
     DBAccess db = new DBAccess();
    //ReminderModel reminderModel;
 
 
-    public ReminderGUI(Reminder reminderProgam){
+    public ReminderGUI(Reminder reminderProgam) {
 
         setContentPane(mainPanel);
         pack();
@@ -46,30 +50,55 @@ public class ReminderGUI extends JFrame implements WindowListener{
 
         initListeners();
         configureDateSpinner();
-        db.addReminderToDB("Do Java HW", new java.sql.Date(2017,12,06));
-        db.addReminderToDB("Respond to emails", new java.sql.Date(2017,12,06));
-        db.addReminderToDB("Look into Google API", new java.sql.Date(2017,12,06));
+        getCurrentTime();
 
+        reminderList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); //Set to single selection
         reminderList.setModel(db.loadRemindersDB());
-
-        //TODO setup datamodel
-
-        //TODO add listeners
-
+        setNumberOfReminders();
 
     }
+        //TODO  fix year for due by dates
+        //TODO add listeners
+        //TODO download project from git and make sure all the dependencies are there and working
+
+
+
     private void initListeners(){
         addNewReminder.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+                //TODO finish this event handler
                 String task = reminderTextField.getText();
                 if(task == null || task.trim().equals("")){
                     showAlertDialog("Please enter a valid reminder");
                 }
+                SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd");
+                String date = format.format(dateSpinner.getValue());
+
+                db.addReminderToDB(task,date);
+                updateList();
+
+            }
+        });
+        removeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            //TODO add joption pane to ask user if they want to delete
+                String value = reminderList.getSelectedValue().toString();
+                String taskOnly = value.substring(0, value.indexOf("due")-1); //extracts only the task
+                db.deleteReminderFromDB(taskOnly);
+                updateList();
+            }
+        });
+        reminderList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+
 
             }
         });
     }
+
+
     protected void showAlertDialog(String message) {
         JOptionPane.showMessageDialog(this, message);
     }
@@ -95,7 +124,21 @@ public class ReminderGUI extends JFrame implements WindowListener{
 
         dateSpinner.setEditor(editor);
     }
-
+    protected void getCurrentTime(){
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yy hh:mm:ss");
+        Date exampleDate = new Date();     // test date
+        String dateStr = format.format(exampleDate);
+        currentTimeLabel.setText(dateStr);
+    }
+    public void setNumberOfReminders(){
+        String number = String.valueOf(db.reminders.size());
+        String reminderStr = String.format("Reminders (%s)",number);
+        reminderLabel.setText(reminderStr);
+    }
+    public void updateList(){
+        reminderList.setModel(db.loadRemindersDB());
+        setNumberOfReminders();
+    }
 
     public void windowOpened(WindowEvent e) {
 

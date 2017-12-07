@@ -2,6 +2,8 @@ package FinalProject;
 
 import javax.swing.*;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -22,11 +24,12 @@ public class DBAccess {
     private static String insertSQL = "INSERT INTO reminders VALUES (?,?)";
     private static String deleteSQL = "DELETE FROM reminders WHERE task = ?";
     private static String editSQL = "UPDATE reminders SET task WHERE task = ?"; //Is this necessary?
+
+
     private static ResultSet resultSet;
 
-    ReminderModel reminderModel;
     DefaultListModel reminders = new DefaultListModel();
-    private final ArrayList<ResultSet> remList = new ArrayList<ResultSet>();
+
 
     //TODO clean up unused code
     public void connect(){
@@ -48,45 +51,27 @@ public class DBAccess {
         try {
             System.out.println("Loading reminders from DB");
 
-//            Class.forName(JDBC_Driver);
-//            conn = DriverManager.getConnection(db_url);
             connect();
             statement = conn.createStatement();
-            String getDataSQL = "SELECT * FROM reminders ORDER BY date ASC";
+            String getDataSQL = "SELECT * FROM reminders"; //ORDER BY date ASC
             resultSet = statement.executeQuery(getDataSQL);
 
-            if (rs != null) {
-                rs.close();
-            }
             if(reminders == null){
-                reminders.addElement(rs.getString("task"));
-                reminders.addElement(rs.getDate("date").toString());
-//            if (reminderModel == null) {
-//                reminderModel = new ReminderModel(rs);
-//            } else {
-//                reminderModel.updateResultSet(rs);
+               formatResults();
+
             }else{
                 reminders.clear();
-                reminders.addElement(rs.getString("task"));
-                reminders.addElement(rs.getDate("date").toString());
-            }
+                formatResults();
+                }
             System.out.println("Loaded reminders.");
+            resultSet.close();
+
             return reminders;
-
-//            statement.close();
-//            rs.close();
-            //conn.close()?
-
 
 
         } catch (SQLException se) {
             se.printStackTrace();
             return null;
-//        } catch (ClassNotFoundException cnfe) {
-//            System.out.println("Driver not found :(");
-//            cnfe.printStackTrace();
-//            System.exit(-1);
-
         }catch(Exception e) {
             System.out.println("Error making list model");
             e.printStackTrace();
@@ -94,20 +79,17 @@ public class DBAccess {
         }
 
     }
-    public boolean addReminderToDB(String task, Date date){
+    public boolean addReminderToDB(String task, String date){
 
         //TODO simplify this method
 
         try{
-
-//            Class.forName(JDBC_Driver);
-//            conn = DriverManager.getConnection(db_url);
             connect();
             PreparedStatement psInsert = conn.prepareStatement(insertSQL);
             psInsert.setString(1,task);
-            psInsert.setDate(2,date);
+            psInsert.setString(2,date);
             psInsert.executeUpdate();
-//            psInsert.close();
+
             System.out.println("Added reminder to DB");
             return true; //could wait until connection closes for this
 
@@ -116,6 +98,44 @@ public class DBAccess {
             se.printStackTrace();
             return false;
 
+        }
+    }
+    public boolean deleteReminderFromDB(String task) {
+
+        try {
+            connect();
+            PreparedStatement psDelete = conn.prepareStatement(deleteSQL);
+            psDelete.setString(1, task);
+            psDelete.executeUpdate();
+            psDelete.close();
+
+            System.out.println("Deleted reminder from DB");
+            conn.close();
+            return true;
+        } catch (SQLException se) {
+            System.out.println("Error deleting reminder from DB");
+            se.printStackTrace();
+            return false;
+        }
+    }
+
+    protected void formatResults() {
+
+        try {
+            while (resultSet.next()) {
+                String task = resultSet.getString("task");
+                java.util.Date utilDate = new SimpleDateFormat("YYYY-MM-dd").parse(resultSet.getString("date"));
+                java.sql.Date date = new java.sql.Date(utilDate.getTime());
+                String output = String.format("%s due by: %s", task, date);
+                reminders.addElement(output);
+
+            }
+        } catch (SQLException se) {
+            System.out.println("Error formatting results");
+            se.printStackTrace();
+        } catch (ParseException pe){
+            System.out.println("Error parsing date");
+            pe.printStackTrace();
         }
     }
     protected void shutDown(){
