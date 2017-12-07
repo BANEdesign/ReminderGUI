@@ -124,8 +124,9 @@ public class DBAccess {
         try {
             while (resultSet.next()) {
                 String task = resultSet.getString("task");
-                java.util.Date utilDate = new SimpleDateFormat("YYYY-MM-dd").parse(resultSet.getString("date"));
-                java.sql.Date date = new java.sql.Date(utilDate.getTime());
+                String date = resultSet.getString("date");
+//                java.util.Date utilDate = new SimpleDateFormat("YYYY-MM-dd").parse(resultSet.getString("date"));
+//                java.sql.Date date = new java.sql.Date(utilDate.getTime());
                 String output = String.format("%s due by: %s", task, date);
                 reminders.addElement(output);
 
@@ -133,9 +134,7 @@ public class DBAccess {
         } catch (SQLException se) {
             System.out.println("Error formatting results");
             se.printStackTrace();
-        } catch (ParseException pe){
-            System.out.println("Error parsing date");
-            pe.printStackTrace();
+
         }
     }
     protected void shutDown(){

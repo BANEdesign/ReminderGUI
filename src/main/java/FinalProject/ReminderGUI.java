@@ -57,16 +57,16 @@ public class ReminderGUI extends JFrame implements WindowListener{
         setNumberOfReminders();
 
     }
-        //TODO  fix year for due by dates
+
         //TODO add listeners
         //TODO download project from git and make sure all the dependencies are there and working
-
+        //TODO add something to calender button in GUI, maybe integrate google calender with API
 
 
     private void initListeners(){
         addNewReminder.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //TODO finish this event handler
+
                 String task = reminderTextField.getText();
                 if(task == null || task.trim().equals("")){
                     showAlertDialog("Please enter a valid reminder");
@@ -87,13 +87,6 @@ public class ReminderGUI extends JFrame implements WindowListener{
                 String taskOnly = value.substring(0, value.indexOf("due")-1); //extracts only the task
                 db.deleteReminderFromDB(taskOnly);
                 updateList();
-            }
-        });
-        reminderList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-
-
             }
         });
     }
@@ -119,9 +112,7 @@ public class ReminderGUI extends JFrame implements WindowListener{
         DateFormatter formatter = (DateFormatter) editor.getTextField().getFormatter();
 
         formatter.setAllowsInvalid(false);
-
         formatter.setOverwriteMode(true);
-
         dateSpinner.setEditor(editor);
     }
     protected void getCurrentTime(){
