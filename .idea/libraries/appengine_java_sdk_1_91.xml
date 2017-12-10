@@ -1,0 +1,30 @@
+<component name="libraryTable">
+  <library name="appengine-java-sdk-1.91">
+    <CLASSES>
+      <root url="file://$USER_HOME$/Downloads/appengine-java-sdk-1.9.59" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://$USER_HOME$/Downloads/appengine-java-sdk-1.9.59/docs/endpoints/javadoc" />
+      <root url="file://$USER_HOME$/Downloads/appengine-java-sdk-1.9.59/docs/javadoc" />
+      <root url="file://$USER_HOME$/Downloads/appengine-java-sdk-1.9.59/docs/remoteapi/javadoc" />
+      <root url="file://$USER_HOME$/Downloads/appengine-java-sdk-1.9.59/docs/spi/javadoc" />
+      <root url="file://$USER_HOME$/Downloads/appengine-java-sdk-1.9.59/docs/testing/javadoc" />
+      <root url="file://$USER_HOME$/Downloads/appengine-java-sdk-1.9.59/docs/tools/javadoc" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="file://$USER_HOME$/Downloads/appengine-java-sdk-1.9.59/demos/guestbook/src" />
+      <root url="file://$USER_HOME$/Downloads/appengine-java-sdk-1.9.59/demos/helloorm/src" />
+      <root url="file://$USER_HOME$/Downloads/appengine-java-sdk-1.9.59/demos/helloorm2/src" />
+      <root url="file://$USER_HOME$/Downloads/appengine-java-sdk-1.9.59/demos/helloservers/src" />
+      <root url="file://$USER_HOME$/Downloads/appengine-java-sdk-1.9.59/demos/helloxmpp/src" />
+      <root url="file://$USER_HOME$/Downloads/appengine-java-sdk-1.9.59/demos/jdoexamples/src" />
+      <root url="file://$USER_HOME$/Downloads/appengine-java-sdk-1.9.59/demos/mandelbrot/src" />
+      <root url="file://$USER_HOME$/Downloads/appengine-java-sdk-1.9.59/demos/mediastore/src" />
+      <root url="file://$USER_HOME$/Downloads/appengine-java-sdk-1.9.59/demos/new_project_template/src" />
+      <root url="file://$USER_HOME$/Downloads/appengine-java-sdk-1.9.59/demos/shardedcounter/src" />
+      <root url="file://$USER_HOME$/Downloads/appengine-java-sdk-1.9.59/demos/sticky/src" />
+      <root url="file://$USER_HOME$/Downloads/appengine-java-sdk-1.9.59/demos/taskengine/src" />
+      <root url="file://$USER_HOME$/Downloads/appengine-java-sdk-1.9.59/demos/taskqueueexamples/src" />
+    </SOURCES>
+  </library>
+</component>

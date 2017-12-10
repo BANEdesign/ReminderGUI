@@ -56,11 +56,17 @@ public class ReminderGUI extends JFrame implements WindowListener{
         reminderList.setModel(db.loadRemindersDB());
         setNumberOfReminders();
 
+
     }
 
-        //TODO add listeners
+
         //TODO download project from git and make sure all the dependencies are there and working
-        //TODO add something to calender button in GUI, maybe integrate google calender with API
+        //TODO add update button that will check if more reminders were added to your google calender.
+
+        //TODO **Extras for Reminders**
+        // add more than default reminder option. add option to send via sms
+        // make reminder send reminder text via sms
+        // create option for a re-occuring reminder example: a reminder to exersise daily
 
 
     private void initListeners(){
@@ -77,6 +83,15 @@ public class ReminderGUI extends JFrame implements WindowListener{
                 db.addReminderToDB(task,date);
                 updateList();
 
+                //This is the yes/no prompt to add to calendar and create alert
+                int reply = JOptionPane.showConfirmDialog(null,
+                        "Would you like to add this reminder to your calender and " +
+                                "create an alert?","Add To Calendar",JOptionPane.YES_NO_OPTION);
+                if(reply==JOptionPane.YES_OPTION){
+                    //adds reminder to calender
+                    GoogleAPI.createEvent(task,date);
+                }
+
             }
         });
         removeButton.addActionListener(new ActionListener() {
@@ -87,6 +102,18 @@ public class ReminderGUI extends JFrame implements WindowListener{
                 String taskOnly = value.substring(0, value.indexOf("due")-1); //extracts only the task
                 db.deleteReminderFromDB(taskOnly);
                 updateList();
+            }
+        });
+        Calender.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String url = "https://calendar.google.com/calendar/embed?src=bbaines09%40gmail.com&ctz=America%2FChicago";
+                    java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
+                }
+                catch (java.io.IOException ioe) {
+                    System.out.println(ioe.getMessage());
+                }
             }
         });
     }
