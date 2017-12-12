@@ -108,7 +108,7 @@ public class ReminderGUI extends JFrame implements WindowListener{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String url = "https://calendar.google.com/calendar/embed?src=bbaines09%40gmail.com&ctz=America%2FChicago";
+                    String url = "https://calendar.google.com/calendar/";
                     java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
                 }
                 catch (java.io.IOException ioe) {
