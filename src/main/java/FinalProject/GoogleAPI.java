@@ -28,7 +28,24 @@ public class GoogleAPI {
      * credentials saved to /Users/bryonnabaines/.credentials/calendar-java-quickstart
      */
     /**
-     * Application name.
+     * OAuth 2.0 authorization*
+     *
+     * the app needs the client secret which needs to be hidden and embed into
+     * the program somehow
+     *
+     * when the user wants to add an event or get up their personal calender, direct them
+     * to a Google URL,  the URL includes query parameters that indicate the type of access
+     * being requested. Google handles the user authentication, session selection, and
+     * user consent. The result is an authorization code, which the application can
+     * exchange for an access token and a refresh token.
+     *
+     * Loopback IP address
+     *
+     *To receive the authorization code using this URL, your application must be listening
+     * on the local web server.
+     *
+     * See the redirect_uri parameter definition for more information about the loopback
+     * IP address. It is also possible to use localhost in place of the loopback IP
      */
 
     private static final String APPLICATION_NAME =
