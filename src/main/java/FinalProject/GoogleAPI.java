@@ -105,7 +105,6 @@ public class GoogleAPI {
         GoogleClientSecrets clientSecrets =
                 GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
-
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow =
                 new GoogleAuthorizationCodeFlow.Builder(
@@ -119,7 +118,6 @@ public class GoogleAPI {
                 "Credentials saved to " + DATA_STORE_DIR.getAbsolutePath());
         return new AuthorizationCodeInstalledApp(flow,
                 new LocalServerReceiver()).authorize("qaalibomer@gmail.com");
-
     }
 
     /**

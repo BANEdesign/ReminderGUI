@@ -34,10 +34,7 @@ public class ReminderGUI extends JFrame implements WindowListener{
     private JSpinner dateSpinner;
     private JLabel currentTimeLabel;
 
-    //private  ArrayList<ReminderModel> remList;
     DBAccess db = new DBAccess();
-   //ReminderModel reminderModel;
-
 
     public ReminderGUI(Reminder reminderProgam) {
 
@@ -56,18 +53,7 @@ public class ReminderGUI extends JFrame implements WindowListener{
         reminderList.setModel(db.loadRemindersDB());
         setNumberOfReminders();
 
-
     }
-
-
-        //TODO download project from git and make sure all the dependencies are there and working
-        //TODO add update button that will check if more reminders were added to your google calender.
-
-        //TODO **Extras for Reminders**
-        // add more than default reminder option. add option to send via sms
-        // make reminder send reminder text via sms
-        // create option for a re-occuring reminder example: a reminder to exersise daily
-
 
     private void initListeners(){
         addNewReminder.addActionListener(new ActionListener() {
@@ -91,7 +77,6 @@ public class ReminderGUI extends JFrame implements WindowListener{
                     //adds reminder to calender
                     GoogleAPI.createEvent(task,date);
                 }
-
             }
         });
         removeButton.addActionListener(new ActionListener() {
@@ -128,7 +113,7 @@ public class ReminderGUI extends JFrame implements WindowListener{
      // Define format the dates will have
      // Attempt to prevent invalid input
      // Allow user to type as well as use up/down buttons
-     // And tell the serviceDataSpinner to use this Editor
+     //
      */
     protected void configureDateSpinner(){
 

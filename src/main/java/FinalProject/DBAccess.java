@@ -30,8 +30,6 @@ public class DBAccess {
 
     DefaultListModel reminders = new DefaultListModel();
 
-
-    //TODO clean up unused code
     public void connect(){
         try{
             Class.forName(JDBC_Driver);
@@ -68,7 +66,6 @@ public class DBAccess {
 
             return reminders;
 
-
         } catch (SQLException se) {
             se.printStackTrace();
             return null;
@@ -77,11 +74,8 @@ public class DBAccess {
             e.printStackTrace();
             return null;
         }
-
     }
     public boolean addReminderToDB(String task, String date){
-
-        //TODO simplify this method
 
         try{
             connect();
@@ -134,7 +128,6 @@ public class DBAccess {
         } catch (SQLException se) {
             System.out.println("Error formatting results");
             se.printStackTrace();
-
         }
     }
     protected void shutDown(){
