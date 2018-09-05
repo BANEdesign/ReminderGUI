@@ -36,7 +36,7 @@ public class ReminderGUI extends JFrame implements WindowListener{
 
     DBAccess db = new DBAccess();
 
-    public ReminderGUI(Reminder reminderProgam) {
+    public ReminderGUI() {
 
         setContentPane(mainPanel);
         pack();
@@ -102,12 +102,6 @@ public class ReminderGUI extends JFrame implements WindowListener{
             }
         });
     }
-
-
-    protected void showAlertDialog(String message) {
-        JOptionPane.showMessageDialog(this, message);
-    }
-
     /**
      * // Create a DateEditor to configure the way dates are displayed and edited
      // Define format the dates will have
@@ -127,6 +121,7 @@ public class ReminderGUI extends JFrame implements WindowListener{
         formatter.setOverwriteMode(true);
         dateSpinner.setEditor(editor);
     }
+
     protected void getCurrentTime(){
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yy hh:mm:ss");
         Date exampleDate = new Date();     // test date
@@ -142,6 +137,11 @@ public class ReminderGUI extends JFrame implements WindowListener{
         reminderList.setModel(db.loadRemindersDB());
         setNumberOfReminders();
     }
+
+    protected void showAlertDialog(String message) {
+        JOptionPane.showMessageDialog(this, message);
+    }
+
 
     public void windowOpened(WindowEvent e) {
 

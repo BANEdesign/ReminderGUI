@@ -11,6 +11,6 @@ public class Reminder {
     }
 
     public void start() {
-        gui = new ReminderGUI(this);
+        gui = new ReminderGUI();
     }
 }

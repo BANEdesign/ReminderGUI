@@ -25,7 +25,4 @@ public class ReminderModel extends DefaultListModel {
         reminder = rs.getString("task");
         date = rs.getDate("date");
     }
-    public void updateResultSet(ResultSet newRS){
-        resultSet = newRS;
-    }
 }

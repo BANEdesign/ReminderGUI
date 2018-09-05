@@ -12,17 +12,13 @@ import java.util.Vector;
  * with the SQLite database.
  * creates Result Sets and sends them to the data model
  */
-public class DBAccess {
-
-    private final String JDBC_Driver = "org.sqlite.JDBC";
-    private final String db_url = "jdbc:sqlite:reminder.db";
+class DBAccess {
 
     private static Statement statement = null;
     private static Connection conn = null;
     private static ResultSet rs = null;
 
-    private static String insertSQL = "INSERT INTO reminders VALUES (?,?)";
-    private static String deleteSQL = "DELETE FROM reminders WHERE task = ?";
+    //Todo implement edit functionality
     private static String editSQL = "UPDATE reminders SET task WHERE task = ?"; //Is this necessary?
 
 
@@ -30,11 +26,14 @@ public class DBAccess {
 
     DefaultListModel reminders = new DefaultListModel();
 
-    public void connect(){
+    private void connect(){
         try{
+            String JDBC_Driver = "org.sqlite.JDBC";
             Class.forName(JDBC_Driver);
+            String db_url = "jdbc:sqlite:reminder.db";
             conn = DriverManager.getConnection(db_url);
 
+            //todo add alert dialogs to display to users
         }catch (SQLException se){
             System.out.println("Error connecting to DB");
             se.printStackTrace();
@@ -44,7 +43,7 @@ public class DBAccess {
         }
     }
 
-    public DefaultListModel loadRemindersDB() {
+    protected DefaultListModel loadRemindersDB() {
 
         try {
             System.out.println("Loading reminders from DB");
@@ -75,10 +74,11 @@ public class DBAccess {
             return null;
         }
     }
-    public boolean addReminderToDB(String task, String date){
+    protected boolean addReminderToDB(String task, String date){
 
         try{
             connect();
+            String insertSQL = "INSERT INTO reminders VALUES (?,?)";
             PreparedStatement psInsert = conn.prepareStatement(insertSQL);
             psInsert.setString(1,task);
             psInsert.setString(2,date);
@@ -94,10 +94,11 @@ public class DBAccess {
 
         }
     }
-    public boolean deleteReminderFromDB(String task) {
+    protected boolean deleteReminderFromDB(String task) {
 
         try {
             connect();
+            String deleteSQL = "DELETE FROM reminders WHERE task = ?";
             PreparedStatement psDelete = conn.prepareStatement(deleteSQL);
             psDelete.setString(1, task);
             psDelete.executeUpdate();
@@ -119,8 +120,6 @@ public class DBAccess {
             while (resultSet.next()) {
                 String task = resultSet.getString("task");
                 String date = resultSet.getString("date");
-//                java.util.Date utilDate = new SimpleDateFormat("YYYY-MM-dd").parse(resultSet.getString("date"));
-//                java.sql.Date date = new java.sql.Date(utilDate.getTime());
                 String output = String.format("%s due by: %s", task, date);
                 reminders.addElement(output);
 
