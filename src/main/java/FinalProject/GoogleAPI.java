@@ -25,13 +25,9 @@ import java.util.List;
 public class GoogleAPI {
     /**
      * Recieved Verification info might be "code=4/xgYp4ke2UffiaGxCoToIxn5DU6-la90QzP8wtCF6VrQ#"
-     * credentials saved to /Users/bryonnabaines/.credentials/calendar-java-quickstart
      */
     /**
      * OAuth 2.0 authorization*
-     *
-     * the app needs the client secret which needs to be hidden and embed into
-     * the program somehow
      *
      * when the user wants to add an event or get up their personal calender, direct them
      * to a Google URL,  the URL includes query parameters that indicate the type of access
@@ -96,9 +92,9 @@ public class GoogleAPI {
      * Creates an authorized Credential object.
      *
      * @return an authorized Credential object.
-     * @throws IOException
+     * throws IOException
      */
-    public static Credential authorize() throws IOException {
+    private static Credential authorize() throws IOException {
         // Load client secrets.
         InputStream in =
                 Calendar.class.getResourceAsStream("/client_secret.json");
@@ -110,9 +106,8 @@ public class GoogleAPI {
                 new GoogleAuthorizationCodeFlow.Builder(
                         HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
                         .setDataStoreFactory(DATA_STORE_FACTORY)
-                        //.setAccessType("offline")
                         .build();
-        Credential credential = new AuthorizationCodeInstalledApp(
+        new AuthorizationCodeInstalledApp(
                 flow, new LocalServerReceiver()).authorize("bbaines09@gmail.com");
         System.out.println(
                 "Credentials saved to " + DATA_STORE_DIR.getAbsolutePath());
@@ -124,9 +119,9 @@ public class GoogleAPI {
      * Build and return an authorized Calendar client service.
      *
      * @return an authorized Calendar client service
-     * @throws IOException
+     * throws IOException
      */
-    public static com.google.api.services.calendar.Calendar
+    private static com.google.api.services.calendar.Calendar
 
     getCalendarService() throws IOException {
         Credential credential = authorize();
@@ -166,7 +161,7 @@ public class GoogleAPI {
         }
     }
 
-    public static void createEvent(String task, String date) {
+    protected static void createEvent(String task, String date) {
         try {
 
             com.google.api.services.calendar.Calendar service =

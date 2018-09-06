@@ -2,10 +2,6 @@ package FinalProject;
 
 import javax.swing.*;
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Vector;
 
 /**
  * Accesses the database, communicates
@@ -20,8 +16,6 @@ class DBAccess {
 
     //Todo implement edit functionality
     private static String editSQL = "UPDATE reminders SET task WHERE task = ?"; //Is this necessary?
-
-
     private static ResultSet resultSet;
 
     DefaultListModel reminders = new DefaultListModel();

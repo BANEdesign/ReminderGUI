@@ -1,20 +1,14 @@
 package FinalProject;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.text.DateFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.sql.ResultSet;
-//import java.time.LocalDateTime;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Vector;
 
 /**
  * The UI which stores the Listeners
@@ -49,7 +43,7 @@ public class ReminderGUI extends JFrame implements WindowListener{
         configureDateSpinner();
         getCurrentTime();
 
-        reminderList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); //Set to single selection
+        reminderList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         reminderList.setModel(db.loadRemindersDB());
         setNumberOfReminders();
 
@@ -61,7 +55,7 @@ public class ReminderGUI extends JFrame implements WindowListener{
 
                 String task = reminderTextField.getText();
                 if(task == null || task.trim().equals("")){
-                    showAlertDialog("Please enter a valid reminder");
+                    showAlertDialog();
                 }
                 SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd");
                 String date = format.format(dateSpinner.getValue());
@@ -74,7 +68,7 @@ public class ReminderGUI extends JFrame implements WindowListener{
                         "Would you like to add this reminder to your calender and " +
                                 "create an alert?","Add To Calendar",JOptionPane.YES_NO_OPTION);
                 if(reply==JOptionPane.YES_OPTION){
-                    //adds reminder to calender
+                    //adds reminder to user's Google calender
                     GoogleAPI.createEvent(task,date);
                 }
             }
@@ -109,7 +103,7 @@ public class ReminderGUI extends JFrame implements WindowListener{
      // Allow user to type as well as use up/down buttons
      //
      */
-    protected void configureDateSpinner(){
+    private void configureDateSpinner(){
 
         SpinnerDateModel spinnerDateModel = new SpinnerDateModel(new Date(), new Date(0), new Date(30000000000000L), Calendar.DAY_OF_YEAR);
         dateSpinner.setModel(spinnerDateModel);
@@ -122,24 +116,24 @@ public class ReminderGUI extends JFrame implements WindowListener{
         dateSpinner.setEditor(editor);
     }
 
-    protected void getCurrentTime(){
+    private void getCurrentTime(){
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yy hh:mm:ss");
         Date exampleDate = new Date();     // test date
         String dateStr = format.format(exampleDate);
         currentTimeLabel.setText(dateStr);
     }
-    public void setNumberOfReminders(){
+    private void setNumberOfReminders(){
         String number = String.valueOf(db.reminders.size());
         String reminderStr = String.format("Reminders (%s)",number);
         reminderLabel.setText(reminderStr);
     }
-    public void updateList(){
+    private void updateList(){
         reminderList.setModel(db.loadRemindersDB());
         setNumberOfReminders();
     }
 
-    protected void showAlertDialog(String message) {
-        JOptionPane.showMessageDialog(this, message);
+    private void showAlertDialog() {
+        JOptionPane.showMessageDialog(this, "Please enter a valid reminder");
     }
 
 
