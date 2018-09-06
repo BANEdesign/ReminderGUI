@@ -3,6 +3,7 @@ A lightweight desktop app to keep track of events/reminders and add them to your
 * implements Google OAuth 2.0 authorization
 * includes a sqlite database
 * interactive GUI window adds reminders to your Google calendar autonomously
+* structured in MVC architecture
 
 ![ScreenShot](screenshot/ReminderGUI_Screenshot.png)
   
